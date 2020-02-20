@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>VueによるToDoリスト</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <h1>ToDo:</h1>
+    <div class="contents">
+      <div id="input">
+        <input type="text" class="todo-input-area" v-model="newTodo" />
+        <input type="button" value="追加" @click="addTodo" />
+      </div>
+      <div>
+        <ul id="todo-list">
+          <todo-item v-for="item in todoItems" :todo="item"></todo-item>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      Vue.component("todo-item", {
+        props: ["todo"],
+        template: `<li>
+            <span class="todo-text" v-bind:class="{isActive: todo.check}">
+              {{ todo.text }}
+            </span>
+            <input id="status" type="checkbox" v-model="todo.check"/>
+          </li>`
+        // methods: {
+        //   change: function(e) {
+        //     let currentText = e.target.previousSibling.textContent;
+        //     let currentIndex = todoList.todoItems.findIndex(
+        //       item => item.text === currentText
+        //     );
+        //     let todoCount = todoList.todoItems.length;
+        //   }
+        // }
+      });
+
+      var todoList = new Vue({
+        el: "#todo-list",
+        data: {
+          todoItems: [
+            { text: "歯を磨く", check: false },
+            { text: "顔を洗う", check: false },
+            { text: "起きる", check: false }
+          ]
+        }
+      });
+
+      var input = new Vue({
+        el: "#input",
+        data: {
+          newTodo: ""
+        },
+        methods: {
+          addTodo: function() {
+            if (this.newTodo != "") {
+              todoList.todoItems.unshift({ text: this.newTodo, check: false });
+              this.newTodo = "";
+            }
+          }
+        }
+      });
+    </script>
+
+    <style>
+      input,
+      li,
+      span,
+      button,
+      p {
+        font-size: 12pt;
+      }
+      ul#todo-list {
+        padding-left: 0;
+        list-style: none;
+      }
+      .contents {
+        padding-left: 50px;
+      }
+      .todo-input-area {
+        height: 32px;
+        width: 350px;
+      }
+      span.todo-text {
+        display: inline-block;
+        width: 350px;
+        border-bottom: 1px solid #ccc;
+      }
+      .isActive {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </body>
+</html>
