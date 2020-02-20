@@ -9,8 +9,13 @@
     <h1>ToDo:</h1>
     <div class="contents">
       <div id="input">
-        <input type="text" class="todo-input-area" v-model="newTodo" />
-        <input type="button" value="追加" @click="addTodo" />
+        <input
+          type="text"
+          id="todoInputArea"
+          class="todo-input-area"
+          v-model="newTodo"
+        />
+        <input type="button" value="追加" id="addTodoButton" @click="addTodo" />
       </div>
       <div>
         <ul id="todo-list">
@@ -28,15 +33,6 @@
             </span>
             <input id="status" type="checkbox" v-model="todo.check"/>
           </li>`
-        // methods: {
-        //   change: function(e) {
-        //     let currentText = e.target.previousSibling.textContent;
-        //     let currentIndex = todoList.todoItems.findIndex(
-        //       item => item.text === currentText
-        //     );
-        //     let todoCount = todoList.todoItems.length;
-        //   }
-        // }
       });
 
       var todoList = new Vue({

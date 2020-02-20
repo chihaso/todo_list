@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha todoTest.js --timeout 10000"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +12,8 @@
   "devDependencies": {
     "mocha": "^7.0.1",
     "selenium-webdriver": "^4.0.0-alpha.5"
+  },
+  "dependencies": {
+    "chai": "^4.2.0"
   }
 }
