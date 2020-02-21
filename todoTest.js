@@ -1,5 +1,6 @@
 const { Builder, By } = require("selenium-webdriver");
-const assert = require("assert");
+const chai = require("chai");
+const assert = chai.assert;
 let driver;
 
 describe("VueによるToDoリストのUIテスト", () => {
@@ -25,15 +26,27 @@ describe("VueによるToDoリストのUIテスト", () => {
     );
   });
 
-  it("チェックボックスにチェックを入れるとテキストの表示が変化する", async () => {
+  it("チェックボックスにチェックを入れるとテキストに取り消し線がついて文字色がグレーになる", async () => {
+    const gray = [
+      "gray",
+      "#808080",
+      "rgb(128, 128, 128)",
+      "rgba(128, 128, 128, 1)"
+    ];
     await driver.get(
       "file:///Users/yuta/Documents/Vue/todo_list/todo-list.html"
     );
     await driver.findElement(By.id("status")).click();
 
-    assert.equal(
-      await driver.findElement(By.className("todo-text")).getAttribute("class"),
-      "todo-text isActive"
+    assert.include(
+      await driver
+        .findElement(By.className("todo-text"))
+        .getCssValue("text-decoration"),
+      "line-through"
+    );
+    assert.include(
+      gray,
+      await driver.findElement(By.className("todo-text")).getCssValue("color")
     );
   });
 });
