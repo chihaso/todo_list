@@ -4,9 +4,13 @@
     <meta charset="utf-8" />
     <title>VueによるToDoリスト</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link  rel="stylesheet" type="text/css"  href="todo-list.css">
   </head>
   <body>
-    <h1>ToDo:</h1>
+    <header>
+      <h1>ToDo:</h1>
+    </header>
+    </div>
     <div class="contents">
       <div id="input">
         <input
@@ -23,73 +27,6 @@
         </ul>
       </div>
     </div>
-
-    <script>
-      Vue.component("todo-item", {
-        props: ["todo"],
-        template: `<li>
-            <span class="todo-text" v-bind:class="{isActive: todo.check}">
-              {{ todo.text }}
-            </span>
-            <input id="status" type="checkbox" v-model="todo.check"/>
-          </li>`
-      });
-
-      var todoList = new Vue({
-        el: "#todo-list",
-        data: {
-          todoItems: [
-            { text: "歯を磨く", check: false },
-            { text: "顔を洗う", check: false },
-            { text: "起きる", check: false }
-          ]
-        }
-      });
-
-      var input = new Vue({
-        el: "#input",
-        data: {
-          newTodo: ""
-        },
-        methods: {
-          addTodo: function() {
-            if (this.newTodo != "") {
-              todoList.todoItems.unshift({ text: this.newTodo, check: false });
-              this.newTodo = "";
-            }
-          }
-        }
-      });
-    </script>
-
-    <style>
-      input,
-      li,
-      span,
-      button,
-      p {
-        font-size: 12pt;
-      }
-      ul#todo-list {
-        padding-left: 0;
-        list-style: none;
-      }
-      .contents {
-        padding-left: 50px;
-      }
-      .todo-input-area {
-        height: 32px;
-        width: 350px;
-      }
-      span.todo-text {
-        display: inline-block;
-        width: 350px;
-        border-bottom: 1px solid #ccc;
-      }
-      .isActive {
-        text-decoration: line-through;
-        color: gray;
-      }
-    </style>
+    <script src="todo-list.js"></script>
   </body>
 </html>

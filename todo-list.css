@@ -1,0 +1,28 @@
+input,
+li,
+span,
+button,
+p {
+  font-size: 12pt;
+}
+
+ul#todo-list {
+  padding-left: 0;
+  list-style: none;
+}
+.contents {
+  padding-left: 50px;
+}
+.todo-input-area {
+  height: 32px;
+  width: 350px;
+}
+span.todo-text {
+  display: inline-block;
+  width: 350px;
+  border-bottom: 1px solid #ccc;
+}
+.isActive {
+  text-decoration: line-through;
+  color: gray;
+}

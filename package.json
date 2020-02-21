@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha todoTest.js --timeout 10000"
+    "test": "mocha Test.js --timeout 10000"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "selenium-webdriver": "^4.0.0-alpha.5"
   },
   "dependencies": {
-    "chai": "^4.2.0"
+    "chai": "^4.2.0",
+    "vue-localstorage": "^0.6.2"
   }
 }
