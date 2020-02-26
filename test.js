@@ -1,9 +1,7 @@
 const { Builder, By } = require("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome");
 const chai = require("chai");
 const assert = chai.assert;
 let driver;
-//chrome.setDefaultService(new chrome.ServiceBuilder("./").build());
 
 describe("VueによるToDoリストのUIテスト", () => {
   before(() => {
@@ -15,16 +13,16 @@ describe("VueによるToDoリストのUIテスト", () => {
   });
 
   it("入力フォームに文字列を打って追加ボタンを押すとリストの先頭に追加される", async () => {
-    const newtask = "ごはんをたべる";
+    const newtodo = "ごはんをたべる";
     await driver.get(
       "file:///Users/yuta/Documents/Vue/todo_list/todo-list.html"
     );
-    await driver.findElement(By.id("todoInputArea")).sendKeys(newtask);
+    await driver.findElement(By.id("todoInputArea")).sendKeys(newtodo);
     await driver.findElement(By.id("addTodoButton")).click();
 
     assert.equal(
       await driver.findElement(By.className("todo-text")).getText(),
-      newtask
+      newtodo
     );
   });
 
@@ -38,7 +36,7 @@ describe("VueによるToDoリストのUIテスト", () => {
     await driver.get(
       "file:///Users/yuta/Documents/Vue/todo_list/todo-list.html"
     );
-    await driver.findElement(By.id("status")).click();
+    await driver.findElement(By.className("status")).click();
 
     assert.include(
       await driver
@@ -52,19 +50,43 @@ describe("VueによるToDoリストのUIテスト", () => {
     );
   });
 
-  // it("リロードした際に最後のリストの状態が再現される", async () => {
-  //   const newtask = "ひなたぼっこをする";
-  //   await driver.get(
-  //     "file:///Users/yuta/Documents/Vue/todo_list/todo-list.html"
-  //   );
-  //   await driver.findElement(By.id("todoInputArea")).sendKeys(newtask);
-  //   await driver.findElement(By.id("addTodoButton")).click();
-  //   await driver.findElements(By.className("status")[2]).click();
+  it("リロードした際にリストの項目が再現される", async () => {
+    const todoTextsList = async function(className) {
+      const todoTexts = await driver.findElements(By.className(className));
+      const list = [];
+      for (const todoText of todoTexts) {
+        list.push(await todoText.getText());
+      }
+      return list;
+    };
+    const newtodo = "ひなたぼっこをする";
+    await driver.get(
+      "file:///Users/yuta/Documents/Vue/todo_list/todo-list.html"
+    );
+    await driver.findElement(By.id("todoInputArea")).sendKeys(newtodo);
+    await driver.findElement(By.id("addTodoButton")).click();
+    const beforeReflesh = await todoTextsList("todo-text");
+    await driver.navigate().refresh();
+    const afterReflesh = await todoTextsList("todo-text");
+    assert.equal(beforeReflesh.toString(), afterReflesh.toString());
+  });
 
-  //   assert.equal(
-  //     await driver.findElement(By.className("todo-text")).getText(),
-  //     newtask
-  //   );
-  //   assert.equal(await driver.findElements(By.className("status"))[2], true);
-  // });
+  it("リロードした際にチェックボックスのチェック状態が再現される", async () => {
+    const checksList = async function(className) {
+      const checks = await driver.findElements(By.className(className));
+      const list = [];
+      for (const check of checks) {
+        list.push(await check.isSelected());
+      }
+      return list;
+    };
+    await driver.get(
+      "file:///Users/yuta/Documents/Vue/todo_list/todo-list.html"
+    );
+    await driver.findElement(By.className("status")).click();
+    const beforeReflesh = await checksList("status");
+    await driver.navigate().refresh();
+    const afterReflesh = await checksList("status");
+    assert.equal(beforeReflesh.toString(), afterReflesh.toString());
+  });
 });
