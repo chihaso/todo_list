@@ -9,12 +9,14 @@
   <body>
     <header id="header">
       <h1>ToDo:</h1>
-      <input
-        type="button"
-        id="deleteChecked"
-        value="チェック済みの項目を削除"
-        @click="deleteChecked"
-      />
+      <div class="tool-button">
+        <input
+          type="button"
+          id="deleteChecked"
+          value="チェック済みの項目を削除"
+          @click="deleteChecked"
+        />
+      </div>
     </header>
 
     <div class="contents">

@@ -6,22 +6,39 @@ p {
   font-size: 12pt;
 }
 
+header {
+  width: 450px;
+  padding-bottom: 10px;
+}
+header h1 {
+  margin-bottom: 0px;
+}
+
+.tool-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
 ul#todoList {
   padding-left: 0;
   list-style: none;
 }
+
 .contents {
   padding-left: 50px;
 }
+
 .todo-input-area {
   height: 32px;
   width: 350px;
 }
+
 span.todo-text {
   display: inline-block;
   width: 350px;
   border-bottom: 1px solid #ccc;
 }
+
 .isActive {
   text-decoration: line-through;
   color: gray;

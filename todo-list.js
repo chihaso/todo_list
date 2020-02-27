@@ -33,12 +33,10 @@ var input = new Vue({
     addTodo() {
       if (this.newTodo != "") {
         todoList.todoItems.unshift({
-          id: todoList.nextTodoId,
           text: this.newTodo,
           check: false
         });
         this.newTodo = "";
-        todoList.nextTodoId += 1;
         todoList.saveTodoItems();
       }
     }
