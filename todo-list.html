@@ -4,16 +4,23 @@
     <meta charset="utf-8" />
     <title>VueによるToDoリスト</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link  rel="stylesheet" type="text/css"  href="todo-list.css">
+    <link rel="stylesheet" type="text/css" href="todo-list.css" />
   </head>
   <body>
-    <header>
+    <header id="header">
       <h1>ToDo:</h1>
+      <input
+        type="button"
+        id="deleteChecked"
+        value="チェック済みの項目を削除"
+        @click="deleteChecked"
+      />
     </header>
-    </div>
+
     <div class="contents">
-      <div id="input">
+      <div id="addNewTodo">
         <input
+          placeholder="ここに新しいToDoを入力してください"
           type="text"
           id="todoInputArea"
           class="todo-input-area"
@@ -21,9 +28,20 @@
         />
         <input type="button" value="追加" id="addTodoButton" @click="addTodo" />
       </div>
+
       <div>
-        <ul id="todo-list">
-          <todo-item v-for="item in todoItems" :todo="item"></todo-item>
+        <ul id="todoList">
+          <li v-for="todo in todoItems" class="todo">
+            <span class="todo-text" v-bind:class="{isActive: todo.check}">
+              {{ todo.text }}
+            </span>
+            <input
+              class="status"
+              type="checkbox"
+              v-model="todo.check"
+              @change="saveCheck(todo.check)"
+            />
+          </li>
         </ul>
       </div>
     </div>

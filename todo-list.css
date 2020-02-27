@@ -6,7 +6,7 @@ p {
   font-size: 12pt;
 }
 
-ul#todo-list {
+ul#todoList {
   padding-left: 0;
   list-style: none;
 }

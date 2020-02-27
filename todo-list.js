@@ -1,15 +1,5 @@
-Vue.component("todo-item", {
-  props: ["todo"],
-  template: `<li>
-      <span class="todo-text" v-bind:class="{isActive: todo.check}">
-        {{ todo.text }}
-      </span>
-      <input id="status" type="checkbox" v-model="todo.check" />
-    </li>`
-});
-
 var todoList = new Vue({
-  el: "#todo-list",
+  el: "#todoList",
   data: {
     todoItems: [
       { text: "歯を磨く", check: false },
@@ -22,29 +12,48 @@ var todoList = new Vue({
       this.todoItems = JSON.parse(localStorage.getItem("todoItems"));
     }
   },
-  watch: {
-    todoItems(newTodoitems) {
-      localStorage.todoItems.text = newTodoitems.text;
+  methods: {
+    saveCheck(check) {
+      check ? false : true;
+      this.saveTodoItems();
+    },
+    saveTodoItems() {
+      const parsed = JSON.stringify(this.todoItems);
+      localStorage.setItem("todoItems", parsed);
     }
   }
 });
 
 var input = new Vue({
-  el: "#input",
+  el: "#addNewTodo",
   data: {
     newTodo: ""
   },
   methods: {
     addTodo() {
       if (this.newTodo != "") {
-        todoList.todoItems.unshift({ text: this.newTodo, check: false });
+        todoList.todoItems.unshift({
+          id: todoList.nextTodoId,
+          text: this.newTodo,
+          check: false
+        });
         this.newTodo = "";
-        this.saveTodoItems();
+        todoList.nextTodoId += 1;
+        todoList.saveTodoItems();
       }
-    },
-    saveTodoItems() {
-      const parsed = JSON.stringify(todoList.todoItems);
-      localStorage.setItem("todoItems", parsed);
+    }
+  }
+});
+
+var header = new Vue({
+  el: "#header",
+  methods: {
+    deleteChecked() {
+      console.log(todoList.todoItems.length);
+      for (let i = todoList.todoItems.length - 1; i >= 0; i -= 1) {
+        todoList.todoItems[i].check ? todoList.todoItems.splice(i, 1) : null;
+      }
+      todoList.saveTodoItems();
     }
   }
 });
